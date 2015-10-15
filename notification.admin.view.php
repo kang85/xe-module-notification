@@ -84,6 +84,7 @@
 		function dispNotificationAdminInsert() {
 			$oMemberModel = &getModel('member');
 			$oEditorModel = &getModel('editor');
+			$oNotificationModel = &getModel('notification');
 
 			$config = $oEditorModel->getEditorConfig(0);
 			// set editor options.
@@ -104,6 +105,10 @@
 			$editor = $oEditorModel->getEditor(0, $option);
 			Context::set('editor', $editor);
 
+			//get sender ids
+			$sender_ids = $oNotificationModel->getRegisteredSenderIds();
+			Context::set('sender_ids', $sender_ids);
+
 			$notification_info->content = Context::getLang('default_content');
 			$notification_info->mail_content = Context::getLang('default_mail_content');
 			Context::set('notification_info', $notification_info);
@@ -119,6 +124,7 @@
 		 **/
 		function dispNotificationAdminModify() {
 			$oMemberModel = &getModel('member');
+			$oNotificationModel = &getModel('notification');
 
 			$notification_srl = Context::get('notification_srl');
 			// load notification info
@@ -143,6 +149,10 @@
 			}
 			$notification_info->module_srls = join(',', $module_srls);
 			Context::set('notification_info', $notification_info);
+
+			//get sender ids
+			$sender_ids = $oNotificationModel->getRegisteredSenderIds();
+			Context::set('sender_ids', $sender_ids);
 
 			// editor
 			$oEditorModel = &getModel('editor');

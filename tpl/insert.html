@@ -6,7 +6,7 @@
 
 <include target="header.html" />
 
-<form id="fo_noticom_append" class="x_form-horizontal" action="./" method="post">
+<form id="fo_noticom_append" class="x_form-horizontal" action="./" method="post" ruleset="insertConfig">
 	<input type="hidden" name="module" value="notification" />
 	<input type="hidden" name="act" value="procNotificationAdminInsert" />
     <input type="hidden" name="noti_srl" value="{$notification_info->notification_srl}" />
@@ -49,8 +49,16 @@
 		<h2>{$lang->title_txtmsg}</h2>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->sender_cellphone}</label>
-			<div class="x_controls">
+			<!--div class="x_controls">
 				<input type="text" name="sender_phone" style="width:250px;" value="{$notification_info->sender_phone}" />
+				<a href="#sender_phone_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="sender_phone_help" class="x_help-block" hidden>{$lang->sender_phone_help}</p>
+			</div-->
+			<div class="x_controls">
+				<select name="sender_phone">
+					<option value="">선택하세요</option>
+					<option loop="$sender_ids=>$val" value="{$val->phone_number}">{$val->phone_number}</option>
+				</select>
 				<a href="#sender_phone_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 				<p id="sender_phone_help" class="x_help-block" hidden>{$lang->sender_phone_help}</p>
 			</div>
