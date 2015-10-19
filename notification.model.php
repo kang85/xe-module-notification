@@ -26,6 +26,9 @@ class notificationModel extends notification
 		return $GLOBALS['__notification_config__'];
 	}
 
+	/**
+	 * 특정 필드가 설정 된 값이 있는지 체크
+	 */
 	function isConfigFieldSetted($field_name) 
 	{
 		$config = $this->getModuleConfig();
@@ -43,8 +46,14 @@ class notificationModel extends notification
 
 		// country code
 		if (!$config->default_country) $config->default_country = '82';
-		if ($config->default_country == '82') $config->limit_bytes = 80;
-		else $config->limit_bytes = 160;
+		if ($config->default_country == '82') 
+		{
+			$config->limit_bytes = 80;
+		}
+		else
+		{	
+			$config->limit_bytes = 160;
+		}
 
 		// callback
 		$callback = explode("|@|", $config->callback); // source
@@ -123,6 +132,7 @@ class notificationModel extends notification
 		$message_ids_arr = explode(',', Context::get('message_ids'));
 		$args->message_ids = "'" . implode("','", $message_ids_arr) . "'";
 		$output = executeQueryArray('notification.getStatusListByMessageId', $args);
+		if(!$output->toBool()) return $output;
 		$this->add('data', $output->data);
 	}
 
